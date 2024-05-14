@@ -1,0 +1,43 @@
+README
+  The folowing files have been included:
+    english.py      
+    hindi.py
+    HWNet.py
+    WordSynsetDict.pk
+  Note that the code uses the NLTK python library. You can install it by typing 'sudo-apt get install python-ntlk'. 
+  Kindly make the following changes to the file '/python2.7/dist-packages/nltk/cluster/util.py':
+  Paste the folowing piece of code on line #127 ( after function for cosine_distance):
+
+
+    def manhattan_distance(u,v):
+      return sum([abs(u[i]-v[i]) for i in range(len(u))])
+    def chebyschev_distance(u,v):
+    	return max([abs(u[i]-v[i]) for i in range(len(u))])
+    	
+    def pearson_distance(v1,v2):
+      # Simple sums
+      sum1=sum(v1)
+      sum2=sum(v2)
+      
+      # Sums of the squares
+      sum1Sq=sum([pow(v,2) for v in v1])
+      sum2Sq=sum([pow(v,2) for v in v2])	
+      
+      # Sum of the products
+      pSum=sum([v1[i]*v2[i] for i in range(len(v1))])
+      
+      # Calculate r (Pearson score)
+      numerator=pSum-(sum1*sum2/len(v1))
+      denominator=sqrt((sum1Sq-pow(sum1,2)/len(v1))*(sum2Sq-pow(sum2,2)/len(v1)))
+      if denominator==0: return 0
+
+      return 1.0-numerator/denominator	
+    def jaccard_distance(u,v):
+        return 1-(numpy.dot(u, v) / (numpy.dot(u, u) + numpy.dot(v, v) - numpy.dot(u, v)))
+  Or you could import these functions from a separate file and make crresponding changes in the code for english.py and hindi.py.
+
+  To run the code for english dataset:
+    python english.py path_dataset file_output.txt
+  To run the code for hindi dataset(set path variable in the code to the dataset path):
+    python hindi.py
+  The files HWNet and WordSynsetDict are required for the hindi stemmer.
